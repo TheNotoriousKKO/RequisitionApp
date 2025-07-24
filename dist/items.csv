@@ -1,0 +1,47 @@
+Name,Category,Points,Description
+MARK X PHOBOS,Armor,0,NULL
+MARK X TACTICUS,Armor,0,NULL
+Astartes combat knife,Utility,0,NULL
+Bolt Rifle,Ranged,3,NULL
+Stalker Bolt Rifle,Ranged,3,NULL
+Auto Bolt Rifle,Ranged,3,NULL
+Combat Shotgun,Ranged,3,NULL
+Bolt pistol,Ranged,2,NULL
+Chainaxe,Melee,2,NULL
+Chainsword,Melee,3,NULL
+Granatnik,Ranged,3,NULL
+Hand flamer,Pistol,2,NULL
+Heavy bolt pistol,Pistol,2,NULL
+Paired combat blades,Melee,3,NULL
+Ciężki flamer,Heavy Ranged,4,NULL
+Eviscerator,Heavy Melee,4,NULL
+Heavy bolter,Heavy Ranged,4,NULL
+Karabin snajperski MK. IX Ultra,Heavy Ranged,6,NULL
+Wyrzutnia rakiet,Heavy Ranged,4,NULL
+Breacher charges x2,Grenade,2,NULL
+EMP grenade x3,Grenade,2,NULL
+Flamer grenade x3,Grenade,2,NULL
+Flash grenade x3,Grenade,2,NULL
+Frag grenade x3,Grenade,2,NULL
+Ironstorm Smoke grenade x3,Grenade,2,NULL
+Krak grenade x3,Grenade,2,NULL
+Melta bomb x1,Grenade,2,NULL
+Smoke grenade x3,Grenade,2,NULL
+Auspex,Utility,1,NULL
+Bagnet,Utility,1,NULL
+Camo-cloak,Utility,1,NULL
+Combi-tool,Utility,1,NULL
+Grappling hooks,Utility,1,NULL
+Grav chute,Utility,2,NULL
+Jump Pack,Utility,3,NULL
+Med-kit,Utility,1,NULL
+Scope,Utility,1,NULL
+Servo skull,Utility,2,NULL
+Boarding Shield,Other,3,NULL
+Combat Shield,Other,2,NULL
+Combi-Flamer,Other,1,NULL
+Breaching Rounds 2 mags,Other,2,NULL
+Dragonfire Rounds 2 mags,Other,2,NULL
+Hellfire Bolts 2 mags,Other,2,NULL
+Kraken Bolts 2 mags,Other,2,NULL
+Penetrator Rounds 2 mags,Other,2,NULL
