@@ -1,15 +1,8 @@
 import tkinter as tk
-import json
-import os
-from ui import RequisitionApp, prompt_for_username_initial, on_close
-from utils import load_metadata, save_metadata, META_FILE
-
-
-def launch_main_app():
-    app_root = tk.Tk()
-    app = RequisitionApp(app_root)
-    app_root.protocol("WM_DELETE_WINDOW", lambda: on_close(app_root))
-    app_root.mainloop()
+import json, os, threading
+from welcome import show_welcome_screen
+from ui import RequisitionApp, prompt_for_username_initial, prompt_for_csv_url_initial, on_close
+from utils import load_metadata, load_items, META_FILE
 
 
 if __name__ == "__main__":
@@ -22,29 +15,36 @@ if __name__ == "__main__":
     if not meta.get("username"):
         prompt_for_username_initial()
         meta = load_metadata()
+    if not meta.get("csv_url"):
+        prompt_for_csv_url_initial()
+        meta = load_metadata()
 
-    username = meta.get("username", "Player").upper()
+    username = meta.get("username", "Player")
 
-    # Initial welcome screen
-    root = tk.Tk()
-    root.withdraw()
-    welcome = tk.Toplevel()
-    welcome.title("Deployment Protocol")
-    welcome.configure(bg="#121212")
-    welcome.geometry("350x150")
+    # Flags to track completion
+    data_ready = {"download": False, "timer": False}
 
-    msg = f""">> SERVITOR-ACCESS VERIFIED
->> WELCOME, BROTHER {username}
->> PREPARE FOR DEPLOYMENT"""
+    # Start background download immediately
+    preloaded = {"items": None}
 
-    tk.Label(welcome, text=msg, fg="#00ff88", bg="#121212", font=("Courier", 10), justify="left")\
-        .pack(expand=True, fill="both", padx=20, pady=20)
+    def preload_data():
+        preloaded["items"] = load_items()  # triggers the request and caching
+        data_ready["download"] = True
+        check_and_start()
 
-    # After delay, close welcome and launch main UI
-    def start_app():
-        welcome.destroy()
-        root.destroy()
-        launch_main_app()
+    def check_and_start():
+        if data_ready["download"] and data_ready["timer"]:
+            launch_main_app()
 
-    welcome.after(2000, start_app)
-    root.mainloop()
+    def start_timer():
+        data_ready["timer"] = True
+        check_and_start()
+
+    def launch_main_app():
+        app_root = tk.Tk()
+        app = RequisitionApp(app_root, preloaded_items=preloaded["items"])
+        app_root.protocol("WM_DELETE_WINDOW", lambda: on_close(app_root))
+        app_root.mainloop()
+
+    threading.Thread(target=preload_data, daemon=True).start()
+    show_welcome_screen(username, start_timer)

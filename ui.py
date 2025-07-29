@@ -8,10 +8,10 @@ ARMOR_LIMIT = 1
 
 
 class RequisitionApp:
-    def __init__(self, root):
+    def __init__(self, root, preloaded_items=None):
         self.root = root
         self.root.title("Requisition Planner")
-        self.items = load_items()
+        self.items = preloaded_items if preloaded_items is not None else load_items()
         self.meta = load_metadata()
         self.username = self.meta.get("username", "Player")
         self.items.extend(self.meta.get("personal_items", []))
@@ -252,6 +252,44 @@ def prompt_for_username_initial():
     ttk.Button(top, text="Confirm", command=submit, style="TButton").pack(pady=10)
     top.mainloop()
 
+def prompt_for_csv_url_initial():
+    def submit():
+        url = entry.get().strip()
+        if not url.startswith("http"):
+            messagebox.showerror("Invalid", "Please enter a valid URL.")
+            return
+
+        # ✅ Detect Google Drive "file/d/<id>/view" format and convert
+        import re
+        match = re.search(r"/d/([a-zA-Z0-9_-]+)", url)
+        if match:
+            file_id = match.group(1)
+            url = f"https://drive.google.com/uc?export=download&id={file_id}"
+
+        meta["csv_url"] = url
+        save_metadata(meta)
+        top.destroy()
+
+
+    meta = load_metadata()
+    top = tk.Tk()
+    top.title("CLOUD DATA MISSING")
+    top.configure(bg="#121212")
+    top.geometry("400x150")
+
+    tk.Label(top, text="Provide Google Drive CSV Link:", bg="#121212", fg="#00ff88", font=("Courier", 10))\
+        .pack(pady=(20, 5))
+    entry = tk.Entry(top, bg="#1e1e1e", fg="#00ff88", insertbackground="#00ff88", font=("Courier", 10))
+    entry.pack(padx=20, pady=5, fill="x")
+    entry.focus()
+
+    style = ttk.Style(top)
+    style.theme_use("default")
+    style.configure("TButton", background="#1e1e1e", foreground="#00ff88", font=("Courier", 10))
+    style.map("TButton", background=[("active", "#00ff88")], foreground=[("active", "#000000")])
+
+    ttk.Button(top, text="Confirm", command=submit, style="TButton").pack(pady=10)
+    top.mainloop()
 
 def on_close(root):
     root.quit()

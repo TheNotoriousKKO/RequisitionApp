@@ -1,0 +1,20 @@
+# Python cache and compiled files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environments
+venv/
+env/
+
+# PyInstaller build artifacts
+build/
+*.spec
+
+# Metadata
+*.log
+
+# OS-specific files
+.DS_Store
+Thumbs.db
